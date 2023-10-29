@@ -11,13 +11,13 @@ DROP TABLE IF EXISTS Teams;
 
 CREATE TABLE Teams (
     team_id INT AUTO_INCREMENT PRIMARY KEY,
-    team_name VARCHAR(255) NOT NULL UNIQUE, 
-    sponsors VARCHAR(255)
+    team_name VARCHAR(30) NOT NULL UNIQUE, 
+    sponsors TEXT
 );
 
 CREATE TABLE Tournaments (
     tournament_id INT AUTO_INCREMENT PRIMARY KEY,
-    tournament_name VARCHAR(255) NOT NULL UNIQUE,
+    tournament_name VARCHAR(40) NOT NULL UNIQUE,
     winner_id INT,
     prize_pool INT,
 
@@ -39,17 +39,21 @@ CREATE TABLE Matches (
     FOREIGN KEY (team2_id) REFERENCES Teams(team_id)
 );
 
+
+--https://www.google.com/search?q=longest+first+name
+--https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwiK0vflqJuCAxXlwAIHHQQZCbUQFnoECA8QAQ&url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FHubert_Blaine_Wolfeschlegelsteinhausenbergerdorff_Sr.&usg=AOvVaw2T-2GNFGWKVC2zfNzDOdX3&opi=89978449
+--https://www.worldatlas.com/articles/what-is-the-longest-country-name-in-the-world.html
 CREATE TABLE Players (
     player_id INT AUTO_INCREMENT PRIMARY KEY,
-    first_name VARCHAR(255) NOT NULL,
-    last_name VARCHAR(255) NOT NULL,
+    first_name VARCHAR(1019) NOT NULL, 
+    last_name VARCHAR(666) NOT NULL,
     height DECIMAL(5, 2),
     weight DECIMAL(5, 2),
-    nickname VARCHAR(255) NOT NULL,
+    nickname VARCHAR(32) NOT NULL,
     team_id INT NOT NULL,
     handedness ENUM('Right', 'Left', 'Ambidextrous'),
     birthdate DATE,
-    nationality VARCHAR(255),
+    nationality VARCHAR(60),
     date_joined DATE NOT NULL,
     date_left DATE,
 
@@ -67,9 +71,11 @@ CREATE TABLE Achievements (
     FOREIGN KEY (player_id) REFERENCES Players(player_id)
 );
 
+--https://notagamer.net/league-of-legends-top-5-champions-with-the-longest-described-skill-set/
+--Fiddlesticks
 CREATE TABLE Champions (
     champion_id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) UNIQUE NOT NULL,
+    name VARCHAR(20) UNIQUE NOT NULL, 
     difficulty ENUM('Easy', 'Medium', 'Hard') NOT NULL,
     passive_ability_description TEXT NOT NULL,
     ability1_description TEXT NOT NULL,
@@ -78,9 +84,10 @@ CREATE TABLE Champions (
     ability4_description TEXT NOT NULL
 );
 
+--Ionian Boots of Lucidity
 CREATE TABLE Items (
     item_id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
+    name VARCHAR(30) NOT NULL, 
     price INT NOT NULL,
     description TEXT,
     stats TEXT,
@@ -226,13 +233,116 @@ VALUES
     (2, 9, 20, 'Bot', 13, '6/2/8', 18400, 12600, 15400, 8, 10, 12, 14, 16, 18),
     (2, 10, 18, 'Support', 11, '2/5/14', 13500, 13900, 12600, 1, 3, 5, 7, 9, 11);
 
+-- SELECT * FROM Teams;
+-- SELECT * FROM Tournaments;
+-- SELECT * FROM Matches;
+-- SELECT * FROM Players;
+-- SELECT * FROM Achievements;
+-- SELECT * FROM Champions;
+-- SELECT * FROM Items;
+-- SELECT * FROM Picks;
+
+--zapytania
+SELECT
+    C.champion_id,
+    C.name AS champion_name,
+    COUNT(M.match_id) AS total_matches,
+    SUM(CASE WHEN M.winner_id = P.champion_id THEN 1 ELSE 0 END) AS matches_won,
+    SUM(CASE WHEN M.winner_id = P.champion_id THEN 1 ELSE 0 END) / COUNT(M.match_id) AS winrate
+FROM Champions AS C
+LEFT JOIN Picks AS P ON C.champion_id = P.champion_id
+LEFT JOIN Matches AS M ON P.match_id = M.match_id
+GROUP BY C.champion_id
+ORDER BY winrate DESC;
+
+SELECT
+    T.team_id,
+    T.team_name,
+    COUNT(A.achievement_id) AS total_achievements
+FROM Teams AS T
+LEFT JOIN Players AS P ON T.team_id = P.team_id
+LEFT JOIN Achievements AS A ON P.player_id = A.player_id
+GROUP BY T.team_id
+ORDER BY total_achievements DESC
+LIMIT 1;
 
 
-SELECT * FROM Teams;
-SELECT * FROM Tournaments;
-SELECT * FROM Matches;
-SELECT * FROM Players;
-SELECT * FROM Achievements;
-SELECT * FROM Champions;
-SELECT * FROM Items;
-SELECT * FROM Picks;
+
+--perspektywy
+CREATE VIEW if not exists PlayerView AS
+SELECT
+    player_id,
+    nickname,
+    team_id,
+    handedness,
+    nationality,
+    date_joined,
+    date_left
+FROM Players;
+
+CREATE VIEW if not exists TeamStatistics AS
+SELECT
+    T.team_id,
+    T.team_name,
+    COUNT(M.match_id) AS total_matches,
+    SUM(CASE WHEN T.team_id = M.winner_id THEN 1 ELSE 0 END) AS total_wins,
+    (COUNT(M.match_id) - SUM(CASE WHEN T.team_id = M.winner_id THEN 1 ELSE 0 END)) AS total_losses,
+    SEC_TO_TIME(AVG(TIME_TO_SEC(M.duration_minutes))) AS avg_match_duration
+FROM Teams T
+LEFT JOIN Matches M ON T.team_id = M.team1_id OR T.team_id = M.team2_id
+GROUP BY T.team_id, T.team_name;
+
+CREATE VIEW if not exists ChampionStatistics AS
+SELECT
+    C.champion_id,
+    C.name AS champion_name,
+    C.difficulty AS champion_difficulty,
+    COUNT(P.champion_id) AS total_picks,
+    SUM(P.dealt_damage) AS total_dealt_damage,
+    AVG(P.dealt_damage) AS average_dealt_damage,
+    SUM(P.received_damage) AS total_received_damage,
+    AVG(P.received_damage) AS average_received_damage,
+    SUM(P.earned_gold) AS total_earned_gold,
+    AVG(P.earned_gold) AS average_earned_gold
+FROM Champions C
+LEFT JOIN Picks P ON C.champion_id = P.champion_id
+GROUP BY C.champion_id, champion_name, champion_difficulty;
+
+
+
+--użytkownicy i uprawnienia
+create role if not exists table_updater;
+grant select, insert, update, delete, create temporary tables, execute
+  on league.*
+  to table_updater;
+create user if not exists 'official_analytic'@'localhost' identified by 'admin';
+grant table_updater
+  to 'official_analytic'@'localhost';
+
+
+create role if not exists table_viewer;
+GRANT SELECT ON league.Teams TO table_viewer;
+GRANT SELECT ON league.Tournaments TO table_viewer;
+GRANT SELECT ON league.Matches TO table_viewer;
+GRANT SELECT ON league.Achievements TO table_viewer;
+GRANT SELECT ON league.Champions TO table_viewer;
+GRANT SELECT ON league.Items TO table_viewer;
+GRANT SELECT ON league.Picks TO table_viewer;
+GRANT SELECT ON league.PlayerView TO table_viewer;
+GRANT SELECT ON league.ChampionStatistics TO table_viewer;
+GRANT SELECT ON league.TeamStatistics TO table_viewer;
+create user if not exists 'viewer'@'localhost' identified by 'admin';
+grant table_viewer
+  to 'viewer'@'localhost';
+FLUSH PRIVILEGES;
+
+SHOW GRANTS FOR 'viewer'@'localhost';
+SHOW GRANTS FOR 'official_analytic'@'localhost';
+
+SHOW GRANTS FOR table_viewer;
+SHOW GRANTS FOR table_updater;
+
+--indeksy
+CREATE INDEX idx_date_played ON Matches (date_played);
+CREATE INDEX idx_team_membership ON Players (team_id, date_joined, date_left);
+
