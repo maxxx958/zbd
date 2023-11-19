@@ -105,12 +105,12 @@ CREATE TABLE Picks (
     dealt_damage INT NOT NULL,
     received_damage INT NOT NULL,
     earned_gold INT NOT NULL,
-    item1_id INT NOT NULL,
-    item2_id INT NOT NULL,
-    item3_id INT NOT NULL,
-    item4_id INT NOT NULL,
-    item5_id INT NOT NULL,
-    item6_id INT NOT NULL,
+    item1_id INT,
+    item2_id INT,
+    item3_id INT,
+    item4_id INT,
+    item5_id INT,
+    item6_id INT,
     
     FOREIGN KEY (match_id) REFERENCES Matches(match_id),
     FOREIGN KEY (player_id) REFERENCES Players(player_id),
@@ -140,32 +140,43 @@ VALUES
 
 INSERT INTO Matches (date_played, winner_id, duration_minutes, tournament_id, team1_id, team2_id)
 VALUES
-    ('2023-01-15', 1, '25:00', 1, 1, 2), -- Team 1 vs. Team 2
-    ('2023-01-16', 2, '30:32', 2, 3, 4), -- Team 3 vs. Team 4
-    ('2023-01-16', 1, '28:12', 3, 2, 4), -- Team 2 vs. Team 4
-    ('2023-01-17', 3, '22:30', 4, 1, 3); -- Team 1 vs. Team 3
+    ('2023-01-15', 1, '00:25:00', 1, 1, 2), -- Team 1 vs. Team 2
+    ('2023-01-16', 2, '00:30:32', 2, 3, 4), -- Team 3 vs. Team 4
+    ('2023-01-16', 1, '00:28:12', 3, 2, 4), -- Team 2 vs. Team 4
+    ('2023-01-17', 3, '00:22:30', 4, 1, 3); -- Team 1 vs. Team 3
 
 INSERT INTO Players (first_name, last_name, height, weight, nickname, team_id, handedness, birthdate, nationality, date_joined, date_left)
 VALUES
     ('John', 'Doe', 185.5, 80.3, 'Blastmaster', 1, 'Right', '1998-05-15', 'American', '2022-01-15', NULL),
-    ('Jane', 'Smith', 175.8, 68.7, 'ShadowStriker', 2, 'Left', '2000-07-22', 'Canadian', '2022-03-10', '2023-04-20'),
     ('Mike', 'Johnson', 190.2, 95.1, 'SteelJuggernaut', 1, 'Right', '1993-12-10', 'British', '2021-12-05', NULL),
-    ('Emily', 'Brown', 165.3, 55.5, 'SwiftSerpent', 3, 'Right', '1997-09-28', 'Australian', '2022-02-20', NULL),
-    ('Daniel', 'Lee', 175.0, 70.2, 'PhantomBlade', 2, 'Left', '1999-03-14', 'South Korean', '2022-01-05', NULL),
-    ('Sophia', 'Garcia', 182.1, 78.8, 'ViperQueen', 4, 'Right', '1996-11-03', 'Mexican', '2022-01-30', NULL),
-    ('William', 'Martinez', 187.5, 82.6, 'IronKnight', 3, 'Left', '1995-08-17', 'Spanish', '2022-04-10', NULL),
     ('Olivia', 'Nguyen', 170.9, 64.3, 'StormPhoenix', 1, 'Right', '1998-12-20', 'Vietnamese', '2022-03-05', '2023-05-18'),
+    ('Alice', 'Wang', 162.5, 54.0, 'RapidFire', 1, 'Left', '1999-10-30', 'Chinese', '2022-01-20', NULL),
+    ('Ethan', 'Taylor', 178.4, 73.6, 'Thunderstrike', 1, 'Right', '1997-06-11', 'Australian', '2022-02-11', NULL),
+    ('Jane', 'Smith', 175.8, 68.7, 'ShadowStriker', 2, 'Left', '2000-07-22', 'Canadian', '2022-03-10', '2023-04-20'),
+    ('Daniel', 'Lee', 175.0, 70.2, 'PhantomBlade', 2, 'Left', '1999-03-14', 'South Korean', '2022-01-05', NULL),
+    ('Ava', 'Patel', 169.2, 62.4, 'InfernoWielder', 2, 'Right', '1997-04-11', 'Indian', '2022-01-02', NULL),
+    ('Hannah', 'Zimmerman', 167.6, 60.3, 'FrostArrow', 2, 'Right', '1996-08-19', 'German', '2022-04-12', NULL),
+    ('Lucas', 'Gonzalez', 180.3, 76.8, 'WarriorHeart', 2, 'Left', '1998-11-05', 'Spanish', '2022-05-09', NULL),
+    ('Emily', 'Brown', 165.3, 55.5, 'SwiftSerpent', 3, 'Right', '1997-09-28', 'Australian', '2022-02-20', NULL),
+    ('William', 'Martinez', 187.5, 82.6, 'IronKnight', 3, 'Left', '1995-08-17', 'Spanish', '2022-04-10', NULL),
+    ('Emma', 'Jones', 160.0, 50.0, 'IceShard', 3, 'Right', '2001-01-15', 'American', '2022-03-22', NULL),
+    ('Mason', 'Rodriguez', 182.9, 79.4, 'BlazeRunner', 3, 'Right', '1994-07-03', 'Mexican', '2022-06-18', NULL),
+    ('Isabella', 'Martini', 173.2, 65.3, 'NightHawk', 3, 'Left', '1999-12-12', 'Italian', '2022-07-25', NULL),
+    ('Sophia', 'Garcia', 182.1, 78.8, 'ViperQueen', 4, 'Right', '1996-11-03', 'Mexican', '2022-01-30', NULL),
     ('Liam', 'Kim', 178.7, 75.0, 'ShadowSword', 4, 'Right', '2001-02-08', 'South Korean', '2022-02-15', NULL),
-    ('Ava', 'Patel', 169.2, 62.4, 'InfernoWielder', 2, 'Right', '1997-04-11', 'Indian', '2022-01-02', NULL);
+    ('Jacob', 'Muller', 183.5, 84.2, 'StormBrewer', 4, 'Left', '1993-03-25', 'German', '2022-08-19', NULL),
+    ('Mia', 'Thompson', 168.4, 57.1, 'StarGazer', 4, 'Right', '1998-04-10', 'British', '2022-09-30', NULL),
+    ('Noah', 'Davis', 175.9, 72.6, 'EagleEye', 4, 'Left', '2000-05-21', 'American', '2022-11-11', NULL);
+
 
 INSERT INTO Achievements (kind, in_game_timer, match_id, player_id)
 VALUES
-    ('FirstBlood', '10:05', 1, 1),  -- Player 1 achieved First Blood at 10 minutes and 5 seconds in Match 1
-    ('DoubleKill', '25:30', 2, 2),  -- Player 2 achieved a Double Kill at 25 minutes and 30 seconds in Match 2
-    ('TripleKill', '30:15', 3, 3),  -- Player 3 achieved a Triple Kill at 30 minutes and 15 seconds in Match 3
-    ('QuadraKill', '45:20', 4, 4),  -- Player 4 achieved a Quadra Kill at 45 minutes and 20 seconds in Match 4
-    ('PentaKill', '58:45', 1, 5),  -- Player 5 achieved a Penta Kill at 58 minutes and 45 seconds in Match 1
-    ('DragonSteal', '36:40', 1, 1);  -- Player 1 stole Dragon at 36 minutes and 40 seconds in Match 1
+    ('FirstBlood', '00:10:05', 1, 1),  -- Player 1 achieved First Blood at 10 minutes and 5 seconds in Match 1
+    ('DoubleKill', '00:25:30', 2, 2),  -- Player 2 achieved a Double Kill at 25 minutes and 30 seconds in Match 2
+    ('TripleKill', '00:30:15', 3, 3),  -- Player 3 achieved a Triple Kill at 30 minutes and 15 seconds in Match 3
+    ('QuadraKill', '00:45:20', 4, 4),  -- Player 4 achieved a Quadra Kill at 45 minutes and 20 seconds in Match 4
+    ('PentaKill', '00:58:45', 1, 5),  -- Player 5 achieved a Penta Kill at 58 minutes and 45 seconds in Match 1
+    ('DragonSteal', '00:36:40', 1, 1);  -- Player 1 stole Dragon at 36 minutes and 40 seconds in Match 1
 
 INSERT INTO Champions (name, difficulty, passive_ability_description, ability1_description, ability2_description, ability3_description, ability4_description)
 VALUES
@@ -345,4 +356,351 @@ SHOW GRANTS FOR table_updater;
 --indeksy
 CREATE INDEX idx_date_played ON Matches (date_played);
 CREATE INDEX idx_team_membership ON Players (team_id, date_joined, date_left);
+
+--procedura do ustalania zwyciezcy turnieju, zakładamy że wygrywa ten kto wygrał najwięcej gier do tej pory
+
+DROP PROCEDURE IF EXISTS SetTournamentWinner;
+
+DELIMITER //
+
+CREATE PROCEDURE SetTournamentWinner(IN p_tournament_name VARCHAR(40))
+BEGIN
+    DECLARE v_tournament_id INT;
+    DECLARE v_winner_team_id INT;
+
+    -- Get the tournament ID
+    SELECT tournament_id INTO v_tournament_id FROM Tournaments WHERE tournament_name = p_tournament_name;
+    IF v_tournament_id IS NULL THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Tournament not found';
+    END IF;
+
+    -- Find the team with the most wins
+    SELECT winner_id INTO v_winner_team_id
+    FROM Matches
+    WHERE tournament_id = v_tournament_id
+    GROUP BY winner_id
+    ORDER BY COUNT(*) DESC
+    LIMIT 1;
+
+    -- Update the tournament's winner
+    UPDATE Tournaments
+    SET winner_id = v_winner_team_id
+    WHERE tournament_id = v_tournament_id;
+END //
+
+DELIMITER ;
+
+-- CALL SetTournamentWinner('World Championship 2023');
+-- ERROR 1644 (45000) at line 608: Tournament not found
+
+-- select winner_id from Tournaments where tournament_name='Summer Cup 2023';
+-- winner_id
+-- NULL
+-- CALL SetTournamentWinner('Summer Cup 2023');
+-- select winner_id from Tournaments where tournament_name='Summer Cup 2023';
+-- winner_id
+-- 1
+
+--wyzwalacze
+
+DELIMITER //
+
+CREATE TRIGGER UpdateTournamentWinner AFTER INSERT ON Matches
+FOR EACH ROW
+BEGIN
+    DECLARE v_tournament_name VARCHAR(30);
+    SELECT tournament_name into v_tournament_name from Tournaments where tournament_id = NEW.tournament_id;
+    CALL SetTournamentWinner(v_tournament_name);
+END//
+
+DELIMITER ;
+
+--procedury
+DROP PROCEDURE IF EXISTS AddMatchToTournament;
+DELIMITER //
+
+CREATE PROCEDURE AddMatchToTournament(
+    IN p_tournament_name VARCHAR(40),
+    IN p_date_played DATE,
+    IN p_winner_team_name VARCHAR(30),
+    IN p_team1_name VARCHAR(30),
+    IN p_team2_name VARCHAR(30),
+    IN p_duration_minutes TIME,
+    IN p_player_data TEXT -- Format: player_id:champion_id:position:level:statistics:dealt_damage:received_damage:earned_gold:item_ids, separated by commas
+)
+BEGIN
+
+    DECLARE v_tournament_id INT;
+    DECLARE v_winner_team_id INT;
+    DECLARE v_team1_id INT;
+    DECLARE v_team2_id INT;
+    DECLARE v_match_id INT;
+    DECLARE v_player_id INT;
+    DECLARE v_champion_id INT;
+    DECLARE v_position ENUM('Mid', 'Top', 'Jungle', 'Bot', 'Support');
+    DECLARE v_level INT;
+    DECLARE v_statistics VARCHAR(20);
+    DECLARE v_dealt_damage INT;
+    DECLARE v_received_damage INT;
+    DECLARE v_earned_gold INT;
+    DECLARE v_item_ids TEXT;
+    DECLARE v_index INT DEFAULT 1;
+    DECLARE v_player_data_entry VARCHAR(255);
+    DECLARE v_end_index INT;
+    DECLARE v_item_id1 INT;
+    DECLARE v_item_id2 INT;
+    DECLARE v_item_id3 INT;
+    DECLARE v_item_id4 INT;
+    DECLARE v_item_id5 INT;
+    DECLARE v_item_id6 INT;
+    DECLARE v_player_team_id INT;
+    DECLARE v_champions_team1 TEXT DEFAULT '';
+    DECLARE v_champions_team2 TEXT DEFAULT '';
+    DECLARE v_team1_player_count INT DEFAULT 0;
+    DECLARE v_team2_player_count INT DEFAULT 0;
+
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        -- If an error occurs, rollback the transaction and exit
+        ROLLBACK;
+        RESIGNAL;
+    END;
+
+    -- Start a new transaction
+    START TRANSACTION;
+
+    -- Add or get tournament
+    INSERT INTO Tournaments (tournament_name) VALUES (p_tournament_name)
+    ON DUPLICATE KEY UPDATE tournament_id = LAST_INSERT_ID(tournament_id);
+    SET v_tournament_id = LAST_INSERT_ID();
+
+    -- Add or get Team 1
+    INSERT INTO Teams (team_name) VALUES (p_team1_name)
+    ON DUPLICATE KEY UPDATE team_id = LAST_INSERT_ID(team_id);
+    SET v_team1_id = LAST_INSERT_ID();
+
+    -- Add or get Team 2
+    INSERT INTO Teams (team_name) VALUES (p_team2_name)
+    ON DUPLICATE KEY UPDATE team_id = LAST_INSERT_ID(team_id);
+    SET v_team2_id = LAST_INSERT_ID();
+
+    -- Add or get Winner Team
+    INSERT INTO Teams (team_name) VALUES (p_winner_team_name)
+    ON DUPLICATE KEY UPDATE team_id = LAST_INSERT_ID(team_id);
+    SET v_winner_team_id = LAST_INSERT_ID();
+
+    -- Validation: Winner team is one of the playing teams
+    IF v_winner_team_id NOT IN (v_team1_id, v_team2_id) THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Winner team is not a playing team';
+    END IF;
+
+    -- Add match details
+    INSERT INTO Matches (date_played, winner_id, duration_minutes, tournament_id, team1_id, team2_id)
+    VALUES (p_date_played, v_winner_team_id, p_duration_minutes, v_tournament_id, v_team1_id, v_team2_id);
+    SET v_match_id = LAST_INSERT_ID();
+
+    -- Find the end index for looping
+    SET v_end_index = (CHAR_LENGTH(p_player_data) - CHAR_LENGTH(REPLACE(p_player_data, ',', ''))) / CHAR_LENGTH(',');
+
+    -- Loop through player data tuples and validate, then insert into Picks
+    WHILE v_index <= v_end_index + 1 DO
+        SET v_player_data_entry = SUBSTRING_INDEX(SUBSTRING_INDEX(p_player_data, ',', v_index), ',', -1);
+
+        -- Extract data from the serialized string
+        SET v_player_id = CONVERT(SUBSTRING_INDEX(v_player_data_entry, ':', 1), UNSIGNED INTEGER);
+        SET v_champion_id = CONVERT(SUBSTRING_INDEX(SUBSTRING_INDEX(v_player_data_entry, ':', 2), ':', -1), UNSIGNED INTEGER);
+        SET v_position = SUBSTRING_INDEX(SUBSTRING_INDEX(v_player_data_entry, ':', 3), ':', -1);
+        SET v_level = CONVERT(SUBSTRING_INDEX(SUBSTRING_INDEX(v_player_data_entry, ':', 4), ':', -1), UNSIGNED INTEGER);
+        SET v_statistics = SUBSTRING_INDEX(SUBSTRING_INDEX(v_player_data_entry, ':', 5), ':', -1);
+        SET v_dealt_damage = CONVERT(SUBSTRING_INDEX(SUBSTRING_INDEX(v_player_data_entry, ':', 6), ':', -1), UNSIGNED INTEGER);
+        SET v_received_damage = CONVERT(SUBSTRING_INDEX(SUBSTRING_INDEX(v_player_data_entry, ':', 7), ':', -1), UNSIGNED INTEGER);
+        SET v_earned_gold = CONVERT(SUBSTRING_INDEX(SUBSTRING_INDEX(v_player_data_entry, ':', 8), ':', -1), UNSIGNED INTEGER);
+        SET v_item_ids = SUBSTRING_INDEX(v_player_data_entry, ':', -1);
+
+        -- Check if player is part of one of the teams
+        SELECT team_id INTO v_player_team_id FROM Players WHERE player_id = v_player_id;
+        IF v_player_team_id NOT IN (v_team1_id, v_team2_id) THEN
+            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Player is not part of the playing teams';
+        END IF;
+
+        -- Count players and ensure no more than 5 per team
+        IF v_player_team_id = v_team1_id THEN
+            SET v_team1_player_count = v_team1_player_count + 1;
+            IF v_team1_player_count > 5 THEN
+                SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'More than 5 players in Team 1';
+            END IF;
+            -- Check for unique champions in Team 1
+            IF FIND_IN_SET(v_champion_id, v_champions_team1) THEN
+                SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Duplicate champion in Team 1';
+            ELSE
+                SET v_champions_team1 = CONCAT_WS(',', v_champions_team1, v_champion_id);
+            END IF;
+        ELSEIF v_player_team_id = v_team2_id THEN
+            SET v_team2_player_count = v_team2_player_count + 1;
+            IF v_team2_player_count > 5 THEN
+                SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'More than 5 players in Team 2';
+            END IF;
+            -- Check for unique champions in Team 2
+            IF FIND_IN_SET(v_champion_id, v_champions_team2) THEN
+                SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Duplicate champion in Team 2';
+            ELSE
+                SET v_champions_team2 = CONCAT_WS(',', v_champions_team2, v_champion_id);
+            END IF;
+        END IF;
+
+        -- Extract item ids
+        SET v_item_id1 = CONVERT(SUBSTRING_INDEX(v_item_ids, ',', 1), UNSIGNED INTEGER);
+        SET v_item_id2 = CONVERT(SUBSTRING_INDEX(SUBSTRING_INDEX(v_item_ids, ',', 2), ',', -1), UNSIGNED INTEGER);
+        SET v_item_id3 = CONVERT(SUBSTRING_INDEX(SUBSTRING_INDEX(v_item_ids, ',', 3), ',', -1), UNSIGNED INTEGER);
+        SET v_item_id4 = CONVERT(SUBSTRING_INDEX(SUBSTRING_INDEX(v_item_ids, ',', 4), ',', -1), UNSIGNED INTEGER);
+        SET v_item_id5 = CONVERT(SUBSTRING_INDEX(SUBSTRING_INDEX(v_item_ids, ',', 5), ',', -1), UNSIGNED INTEGER);
+        SET v_item_id6 = CONVERT(SUBSTRING_INDEX(v_item_ids, ',', -1), UNSIGNED INTEGER);
+
+        -- Insert into Picks
+        INSERT INTO Picks (match_id, player_id, champion_id, position, level, statistics, dealt_damage, received_damage, earned_gold, item1_id, item2_id, item3_id, item4_id, item5_id, item6_id)
+        VALUES (v_match_id, v_player_id, v_champion_id, v_position, v_level, v_statistics, v_dealt_damage, v_received_damage, v_earned_gold, v_item_id1, v_item_id2, v_item_id3, v_item_id4, v_item_id5, v_item_id6);
+
+        SET v_index = v_index + 1;
+    END WHILE;
+    COMMIT;
+END //
+
+DELIMITER ;
+
+
+
+-- CALL AddMatchToTournament(
+--     'Summer Cup 2023', 
+--     '2023-07-15', 
+--     'Winner Team Name', 
+--     'Team Alpha', 
+--     'Team Beta', 
+--     '00:35:00', 
+--     '1:1:Mid:12:6/2/4:18500:12500:15000:1:2:3:4:5:6,2:7:Top:13:5/4/7:17500:13000:14800:7:8:9:10:11:12,3:10:Jungle:11:3/5/12:16000:14000:13500:13:14:15:16:17:18,4:15:Bot:11:7/3/9:19000:12700:15500:19:20:21:22:13:14,5:21:Support:10:1/4/15:13000:13500:12500:15:22:13:14:19:3,6:2:Mid:14:8/2/3:20000:12000:16000:2:4:6:8:10:12,7:8:Top:15:4/4/6:19500:12800:15700:14:16:18:20:22:14,8:13:Jungle:12:3/6/10:16800:14300:14500:22:18:13:2:4:6,9:20:Bot:13:6/2/8:18400:12600:15400:8:10:12:14:16:18,10:18:Support:11:2/5/14:13500:13900:12600:1:3:5:7:9:11'
+-- );
+-- ERROR 1644 (45000) at line 493: Winner team is not a playing team
+
+
+-- CALL AddMatchToTournament(
+--     'Summer Cup 2023', 
+--     '2023-07-15', 
+--     'Team Alpha', 
+--     'Team Alpha', 
+--     'Team Beta', 
+--     '00:35:00', 
+--     '1:1:Mid:12:6/2/4:18500:12500:15000:1:2:3:4:5:6,2:7:Top:13:5/4/7:17500:13000:14800:7:8:9:10:11:12,3:10:Jungle:11:3/5/12:16000:14000:13500:13:14:15:16:17:18,4:15:Bot:11:7/3/9:19000:12700:15500:19:20:21:22:13:14,5:21:Support:10:1/4/15:13000:13500:12500:15:22:13:14:19:3,6:2:Mid:14:8/2/3:20000:12000:16000:2:4:6:8:10:12,7:8:Top:15:4/4/6:19500:12800:15700:14:16:18:20:22:14,8:13:Jungle:12:3/6/10:16800:14300:14500:22:18:13:2:4:6,9:20:Bot:13:6/2/8:18400:12600:15400:8:10:12:14:16:18,10:18:Support:11:2/5/14:13500:13900:12600:1:3:5:7:9:11'
+-- );
+-- ERROR 1644 (45000) at line 505: Player is not part of the playing teams
+
+
+-- CALL AddMatchToTournament(
+--     'Summer Cup 2023', 
+--     '2023-07-15', 
+--     'DWG KIA', 
+--     'DWG KIA', 
+--     'Team Liquid', 
+--     '00:35:00', 
+--     '1:1:Mid:12:6/2/4:18500:12500:15000:1:2:3:4:5:6,2:7:Top:13:5/4/7:17500:13000:14800:7:8:9:10:11:12,3:10:Jungle:11:3/5/12:16000:14000:13500:13:14:15:16:17:18,4:15:Bot:11:7/3/9:19000:12700:15500:19:20:21:22:13:14,5:21:Support:10:1/4/15:13000:13500:12500:15:22:13:14:19:3,6:2:Mid:14:8/2/3:20000:12000:16000:2:4:6:8:10:12,7:8:Top:15:4/4/6:19500:12800:15700:14:16:18:20:22:14,8:13:Jungle:12:3/6/10:16800:14300:14500:22:18:13:2:4:6,10:18:Support:11:2/5/14:13500:13900:12600:1:3:5:7:9:11,9:20:Bot:13:6/2/8:18400:12600:15400:8:10:12:14:16:18'
+-- );
+
+-- SELECT winner_id FROM Tournaments WHERE tournament_name='Summer Cup 2023';
+-- winner_id
+-- 1
+
+-- CALL AddMatchToTournament(
+--     'Summer Cup 2023', 
+--     '2023-07-16', 
+--     'Team Liquid', 
+--     'DWG KIA', 
+--     'Team Liquid', 
+--     '00:35:00', 
+--     '1:1:Mid:12:6/2/4:18500:12500:15000:1:2:3:4:5:6,2:7:Top:13:5/4/7:17500:13000:14800:7:8:9:10:11:12,3:10:Jungle:11:3/5/12:16000:14000:13500:13:14:15:16:17:18,4:15:Bot:11:7/3/9:19000:12700:15500:19:20:21:22:13:14,5:21:Support:10:1/4/15:13000:13500:12500:15:22:13:14:19:3,6:2:Mid:14:8/2/3:20000:12000:16000:2:4:6:8:10:12,7:8:Top:15:4/4/6:19500:12800:15700:14:16:18:20:22:14,8:13:Jungle:12:3/6/10:16800:14300:14500:22:18:13:2:4:6,10:18:Support:11:2/5/14:13500:13900:12600:1:3:5:7:9:11,9:20:Bot:13:6/2/8:18400:12600:15400:8:10:12:14:16:18'
+-- );
+-- SELECT winner_id FROM Tournaments WHERE tournament_name='Summer Cup 2023';
+-- winner_id
+-- 1
+
+-- CALL AddMatchToTournament(
+--     'Summer Cup 2023', 
+--     '2023-07-17', 
+--     'Team Liquid', 
+--     'DWG KIA', 
+--     'Team Liquid', 
+--     '00:35:00', 
+--     '1:1:Mid:12:6/2/4:18500:12500:15000:1:2:3:4:5:6,2:7:Top:13:5/4/7:17500:13000:14800:7:8:9:10:11:12,3:10:Jungle:11:3/5/12:16000:14000:13500:13:14:15:16:17:18,4:15:Bot:11:7/3/9:19000:12700:15500:19:20:21:22:13:14,5:21:Support:10:1/4/15:13000:13500:12500:15:22:13:14:19:3,6:2:Mid:14:8/2/3:20000:12000:16000:2:4:6:8:10:12,7:8:Top:15:4/4/6:19500:12800:15700:14:16:18:20:22:14,8:13:Jungle:12:3/6/10:16800:14300:14500:22:18:13:2:4:6,10:18:Support:11:2/5/14:13500:13900:12600:1:3:5:7:9:11,9:20:Bot:13:6/2/8:18400:12600:15400:8:10:12:14:16:18'
+-- );
+-- SELECT winner_id FROM Tournaments WHERE tournament_name='Summer Cup 2023';
+-- winner_id
+-- 2
+
+-- select * from Tournaments;
+-- tournament_id   tournament_name winner_id       prize_pool
+-- 1       Worlds 2022     1       2000000
+-- 2       MSI 2022        1       400000
+-- 3       LCS Summer Split 2022   2       50000
+-- 4       LCK Spring Split 2022   3       100000
+-- 5       Summer Cup 2023 NULL    NULL
+
+-- select * from Matches;
+-- match_id        date_played     winner_id       duration_minutes        tournament_id   team1_id        team2_id
+-- 1       2023-01-15      1       25:00:00        1       1       2
+-- 2       2023-01-16      2       30:32:00        2       3       4
+-- 3       2023-01-16      1       28:12:00        3       2       4
+-- 4       2023-01-17      3       22:30:00        4       1       3
+-- 5       2023-07-15      1       00:35:00        5       1       2
+
+-- select * from Picks where match_id=5;
+-- pick_id match_id        player_id       champion_id     position        level   statistics      dealt_damage    received_damage earned_gold     item1_id        item2_id        item3_id        item4_id      item5_id        item6_id
+-- 11      5       1       1       Mid     12      6/2/4   18500   12500   15000   6       6       6       6       6       6
+-- 12      5       2       7       Top     13      5/4/7   17500   13000   14800   12      12      12      12      12      12
+-- 13      5       3       10      Jungle  11      3/5/12  16000   14000   13500   18      18      18      18      18      18
+-- 14      5       4       15      Bot     11      7/3/9   19000   12700   15500   14      14      14      14      14      14
+-- 15      5       5       21      Support 10      1/4/15  13000   13500   12500   3       3       3       3       3       3
+-- 16      5       6       2       Mid     14      8/2/3   20000   12000   16000   12      12      12      12      12      12
+-- 17      5       7       8       Top     15      4/4/6   19500   12800   15700   14      14      14      14      14      14
+-- 18      5       8       13      Jungle  12      3/6/10  16800   14300   14500   6       6       6       6       6       6
+-- 19      5       10      18      Support 11      2/5/14  13500   13900   12600   11      11      11      11      11      11
+-- 20      5       9       20      Bot     13      6/2/8   18400   12600   15400   18      18      18      18      18      18
+
+--funkcje
+DROP FUNCTION IF EXISTS CalculateTeamWinRate;
+DELIMITER //
+
+CREATE FUNCTION CalculateTeamWinRate(p_team_name VARCHAR(30)) RETURNS DECIMAL(5,2)
+BEGIN
+    DECLARE total_matches INT;
+    DECLARE total_wins INT;
+    DECLARE v_team_id INT;
+    DECLARE win_rate DECIMAL(5,2);
+    
+    SELECT team_id into v_team_id FROM Teams WHERE team_name = p_team_name;
+    
+
+    SELECT COUNT(*) INTO total_matches 
+    FROM Matches
+    WHERE team1_id = v_team_id OR team2_id = v_team_id;
+
+    SELECT COUNT(*) INTO total_wins 
+    FROM Matches
+    WHERE winner_id = v_team_id;
+
+    IF total_matches > 0 THEN
+        SET win_rate = (total_wins / total_matches) * 100;
+    ELSE
+        SET win_rate = 0;
+    END IF;
+
+    RETURN win_rate;
+END //
+
+DELIMITER ;
+
+-- SELECT CalculateTeamWinRate('DWG KIA');
+-- SELECT CalculateTeamWinRate('Team Liquid');
+-- CalculateTeamWinRate('DWG KIA')
+-- 60.00
+-- CalculateTeamWinRate('Team Liquid')
+-- 60.00
+
+
 
